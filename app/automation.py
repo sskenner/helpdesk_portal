@@ -9,8 +9,9 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 from config import Config
 
 # --- System Web Addresses ---
-SNOW_INCIDENT_URL = "https://nychh.service-now.com/nav_to.do?uri=%2Fincident.do%3Fsys_id%3D-1%26sysparm_query%3Dactive%3Dtrue%26sysparm_stack%3Dincident_list.do%3Fsysparm_query%3Dactive%3Dtrue"
-SNOW_CALL_URL = "https://nychh.service-now.com/new_call.do?sys_id=-1&sysparm_stack=new_call_list.do"
+# SNOW_INCIDENT_URL = "https://nychh.service-now.com/nav_to.do?uri=%2Fincident.do%3Fsys_id%3D-1%26sysparm_query%3Dactive%3Dtrue%26sysparm_stack%3Dincident_list.do%3Fsysparm_query%3Dactive%3Dtrue"
+SNOW_INCIDENT_URL = "https://dev428235.service-now.com/nav_to.do?uri=%2Fincident.do%3Fsys_id%3D-1%26sysparm_query%3Dactive%3Dtrue%26sysparm_stack%3Dincident_list.do%3Fsysparm_query%3Dactive%3Dtrue"
+SNOW_CALL_URL = "https://dev428235.service-now.com/new_call.do?sys_id=-1&sysparm_stack=new_call_list.do"
 
 # --- Helper Functions ---
 def get_chrome_driver() -> webdriver.Chrome:
@@ -33,6 +34,19 @@ def get_chrome_driver() -> webdriver.Chrome:
         # Fallback if the path is not found or config fails
         return webdriver.Chrome(options=options)
 
+def login_to_servicenow(driver, wait):
+    """Logs into the ServiceNow instance using credentials from config."""
+    driver.get("https://dev428235.service-now.com/login.do")
+    
+    username_field = wait.until(EC.element_to_be_clickable((By.ID, "user_name")))
+    username_field.send_keys(Config.SNOW_USERNAME)
+    
+    password_field = driver.find_element(By.ID, "user_password")
+    password_field.send_keys(Config.SNOW_PASSWORD)
+    
+    driver.find_element(By.ID, "sysverb_login").click()
+    wait.until(EC.title_contains("ServiceNow"))
+
 def switch_to_snow_iframe(driver: webdriver.Chrome, wait: WebDriverWait) -> None:
     """Handles Shadow DOM and iframe switching for ServiceNow (Selenium 4+ compatible)."""
     shadow_host = wait.until(EC.presence_of_element_located((By.TAG_NAME, 'macroponent-f51912f4c700201072b211d4d8c26010')))
@@ -46,6 +60,8 @@ def switch_to_snow_iframe(driver: webdriver.Chrome, wait: WebDriverWait) -> None
 
 def create_snow_incident(driver, wait, act_dir, callback, template_text, desc_text, res_code, res_notes, is_general=False):
     """Handles the robust form filling for Res, Unl, and Gen tickets with explicit waits."""
+    login_to_servicenow(driver, wait)
+
     driver.get(SNOW_INCIDENT_URL)
     switch_to_snow_iframe(driver, wait)
     
@@ -162,6 +178,9 @@ def process_servicenow_report() -> None:
     print('FTRsn: Opening YK report...')
     driver = get_chrome_driver()
     driver.maximize_window()
+
+    login_to_servicenow(driver, wait)
+    
     driver.get(SNOW_REPORT_URL)
     wait = WebDriverWait(driver, 10)
     
