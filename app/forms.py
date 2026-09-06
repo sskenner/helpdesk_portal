@@ -1,0 +1,45 @@
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
+from wtforms.validators import DataRequired, Length, Email, EqualTo
+
+class RegistrationForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Sign Up')
+
+class LaunchForm(FlaskForm):
+    submit = SubmitField('Launch')
+
+    ##
+    full_name = StringField('Full Name', validators=[])
+    first_name = StringField('First Name', validators=[])
+    last_name = StringField('Last Name', validators=[])
+    callback = StringField('Callback', validators=[])
+    act_dir = StringField('AD', validators=[])
+    verify = StringField('Verification', validators=[])
+    incident = StringField('Incident', validators=[])
+    type = SelectField(u'Incident Type',
+                       choices=[('Bla', 'Blank'), ('Res',
+                                                                     'Reset'), ('Unl',
+                                                                     'Unlock'), ('Gen', 'General'), ('Sta', 'Status'), ('Bee', 'Beeping')])
+
+class EpForm(FlaskForm):
+    submit = SubmitField('Launch')
+
+    ##
+    type = SelectField(u'Incident Type',
+                       choices=[('Fcreate', 'create report'), ('Fget', 'get data'), ('Fimport', 'import data'), ('Fvc', 'FTRvc')])
+# full menu
+#                       choices=[('Fget', 'get data'), ('Fcreate', 'create report'), ('Fsnc', '3FTRsncpy'), ('Fvcc', '4FTRvccy'), ('Fsn', 'FTRsn'), ('Fvc', 'FTRvc')])
+
+
+
+
+# class CallForm(FlaskForm):
+#     full_name = StringField('Last', validators=[])
+#     # last = StringField('Last', validators=[])
+#     # first = StringField('First', validators=[])
+#     callback = StringField('Last', validators=[])
+#     act_dir = StringField('Last', validators=[])

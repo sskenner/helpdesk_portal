@@ -1,0 +1,32 @@
+# Environments
+venv/
+env/
+vhpp/
+
+# Environment Variables & Secrets
+.env
+
+# Python Cache & Compiled Files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Binaries & Executables (Optional: remove if you strictly want chromedriver in version control)
+bin/chromedriver.exe
+*.exe
+
+# Data & Output Files (Prevents cluttering the repo with daily reports)
+*.xlsx
+*.csv
+*.zip
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
