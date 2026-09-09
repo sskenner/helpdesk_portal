@@ -30,6 +30,7 @@ def launch(): #[cite: 3]
     verify = request.form.get("verify", "") #[cite: 3]
     incident = request.form.get("incident", "") #[cite: 3]
     service_name = request.form.get("service", "")
+    callback_number = request.form.get("callback", "")
 
     form_type = form.type.data #[cite: 3]
 
@@ -38,19 +39,18 @@ def launch(): #[cite: 3]
         desc = f"Customer requests an Active Directory password reset (see ESDKB5809)\nUser ID = \n{act_dir}\nHow was the user verified (2 out of 4 methods per ESDKB6398)? = \n{verify}"
         driver = get_chrome_driver()
         # Changed resolution code to standard PDI value: "Solved (Permanently)"
-        create_snow_incident(driver, WebDriverWait(driver, 90), act_dir, service_name, "Active Directory Password Reset", desc, "Solved (Permanently)", "Reset password and verified access")
+        create_snow_incident(driver, WebDriverWait(driver, 90), act_dir, service_name, "Active Directory Password Reset", desc, "Solved (Permanently)", "Reset password and verified access", callback_number=callback_number)
 
     elif form_type == 'Unl': #[cite: 3]
         print('Processing Unlock Ticket...')
         desc = f"Customer requests an Active Directory password unlock\nUser ID = \n{act_dir}\n{verify}"
         driver = get_chrome_driver()
         # Changed resolution code to standard PDI value: "Solved (Permanently)"
-        create_snow_incident(driver, WebDriverWait(driver, 90), act_dir, service_name, "Active Directory Password Unlock", desc, "Solved (Permanently)", "Unlocked password and verified access")
-        
+        create_snow_incident(driver, WebDriverWait(driver, 90), act_dir, service_name, "Active Directory Password Unlock", desc, "Solved (Permanently)", "Unlocked password and verified access", callback_number=callback_number)
     elif form_type == 'Gen': #[cite: 3]
         print('Processing General Ticket...') #[cite: 3]
         driver = get_chrome_driver() #[cite: 3]
-        create_snow_incident(driver, WebDriverWait(driver, 90), act_dir, service_name, None, None, None, None, is_general=True)
+        create_snow_incident(driver, WebDriverWait(driver, 90), act_dir, service_name, None, None, None, None, callback_number=callback_number, is_general=True)
 
     elif form_type == 'Bee': #[cite: 3]
         print('Beeping') #[cite: 3]

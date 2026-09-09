@@ -45,7 +45,7 @@ def login_to_servicenow(driver, wait):
 
 def switch_to_snow_iframe(driver, wait):
     """Handles iframe switching for both Classic and Next Experience UI."""
-    short_wait = WebDriverWait(driver, 3)
+    short_wait = WebDriverWait(driver, 2)
 
     try:
         # Standard approach: Wait for the iframe directly in the DOM and switch
@@ -63,7 +63,7 @@ def switch_to_snow_iframe(driver, wait):
             print("No iframe detected. Proceeding in top-level DOM.")
             pass
 
-def create_snow_incident(driver, wait, act_dir, service_name, template_text, desc_text, res_code, res_notes, is_general=False):    
+def create_snow_incident(driver, wait, act_dir, service_name, template_text, desc_text, res_code, res_notes, callback_number, is_general=False):    
     login_to_servicenow(driver, wait)
     driver.get(SNOW_INCIDENT_URL)
 
@@ -129,7 +129,9 @@ def create_snow_incident(driver, wait, act_dir, service_name, template_text, des
         
         desc = driver.find_element(By.ID, "incident.description")
         desc.clear()
-        desc.send_keys(desc_text)
+        # desc.send_keys(desc_text)
+        full_desc = f"{desc_text}\n\nCallback Number: {callback_number}" if callback_number else desc_text
+        desc.send_keys(full_desc)
         
         # --- FIX: Change State to Resolved to unhide Resolution fields ---
         state_field = wait.until(EC.element_to_be_clickable((By.ID, "incident.state")))
@@ -163,7 +165,10 @@ def create_snow_incident(driver, wait, act_dir, service_name, template_text, des
         
         desc = driver.find_element(By.ID, "incident.description")
         desc.clear()
-        desc.send_keys(f"User ID = \n{act_dir}\n")
+        # desc.send_keys(f"User ID = \n{act_dir}\n")
+        general_desc = f"User ID = \n{act_dir}\nCallback Number: {callback_number}\n" if callback_number else f"User ID = \n{act_dir}\n"
+
+        desc.send_keys(general_desc)
         
         # driver.find_element(By.ID, "sysverb_insert").click()
         print("General form filled successfully. Submission paused.")
