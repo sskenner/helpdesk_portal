@@ -77,6 +77,10 @@
                     {% endif %}
                 </div>
                 <div class="form-group">
+                    <label for="service">Service</label>
+                    <input type="text" class="form-control" id="service" name="service" placeholder="e.g. SAP Enterprise Services">
+                </div>
+                <div class="form-group">
                     {{ form.incident.label(class="form-control-label") }}
 
                     {% if form.incident.errors %}

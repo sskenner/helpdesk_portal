@@ -63,7 +63,7 @@ def switch_to_snow_iframe(driver, wait):
             print("No iframe detected. Proceeding in top-level DOM.")
             pass
 
-def create_snow_incident(driver, wait, act_dir, service_name, template_text, desc_text, res_code, res_notes, is_general=False):    
+def create_snow_incident(driver, wait, act_dir, template_text, desc_text, res_code, res_notes, is_general=False):
     login_to_servicenow(driver, wait)
     driver.get(SNOW_INCIDENT_URL)
 
@@ -85,7 +85,7 @@ def create_snow_incident(driver, wait, act_dir, service_name, template_text, des
     # Type the ID one character at a time to force the AJAX listener to trigger
     for char in act_dir:
         caller_field.send_keys(char)
-        # time.sleep(0.2) # 500ms pause between each keystroke
+        time.sleep(0.5) # 500ms pause between each keystroke
 
     wait.until(lambda d: d.find_element(By.ID, "sys_display.incident.caller_id").get_attribute("aria-expanded") == "true")
     
@@ -100,28 +100,12 @@ def create_snow_incident(driver, wait, act_dir, service_name, template_text, des
     # Allow 1 second for the field to lock in the reference and clear any validation errors
     time.sleep(1)
 
-    # --- Service Field AJAX Interaction ---
-    if service_name:
-        # REPLACE 'sys_display.incident.business_service' with the exact ID from your DevTools inspection
-        service_field_id = "sys_display.incident.business_service" 
-        
-        service_field = wait.until(EC.element_to_be_clickable((By.ID, service_field_id)))
-        service_field.clear()
-        
-        # Type the service name one character at a time to force the AJAX listener to trigger
-        for char in service_name:
-            service_field.send_keys(char)
-            # time.sleep(0.2) 
-            
-        # Wait for the dropdown menu to render
-        wait.until(lambda d: d.find_element(By.ID, service_field_id).get_attribute("aria-expanded") == "true")
-        time.sleep(2) 
-        
-        # Select the top match
-        service_field.send_keys(Keys.ARROW_DOWN)
-        time.sleep(0.5)
-        service_field.send_keys(Keys.ENTER)
-        time.sleep(1)
+    # 1. Execute the iframe switch
+    # switch_to_snow_iframe(driver, wait)
+    
+    # 2. Proceed with field interaction using g_form
+    # wait.until(EC.presence_of_element_located((By.ID, "sys_display.incident.caller_id")))
+    # driver.execute_script("g_form.setValue('caller_id', arguments[0]);", act_dir)
 
     if not is_general:
         wait.until(EC.presence_of_element_located((By.ID, "incident.short_description")))
