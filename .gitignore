@@ -17,6 +17,9 @@ __pycache__/
 # Binaries & Executables (Optional: remove if you strictly want chromedriver in version control)
 bin/chromedriver.exe
 *.exe
+build/
+dist/
+*.spec
 
 # Data & Output Files (Prevents cluttering the repo with daily reports)
 *.xlsx

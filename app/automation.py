@@ -4,9 +4,7 @@ from selenium import webdriver
 from selenium.common.exceptions import (
     NoSuchElementException,
     TimeoutException,
-    WebDriverException,
 )
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
@@ -25,11 +23,7 @@ def get_chrome_driver() -> webdriver.Chrome:
     options.page_load_strategy = 'eager'
     options.add_argument("--log-level=3")
     
-    try:
-        service = Service(executable_path=Config.CHROMEDRIVER_PATH)
-        return webdriver.Chrome(service=service, options=options)
-    except WebDriverException:
-        return webdriver.Chrome(options=options)
+    return webdriver.Chrome(options=options)
 
 def login_to_servicenow(driver, wait):
     """Logs into the ServiceNow instance using credentials from config."""

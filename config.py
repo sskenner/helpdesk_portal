@@ -7,8 +7,8 @@ load_dotenv()
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class Config:
+    # --- User generated long, random cryptographic string used by Flask to securely sign session cookies ---
     SECRET_KEY = os.environ.get('SECRET_KEY')
-    CHROMEDRIVER_PATH = os.path.join(BASE_DIR, "bin", "chromedriver.exe")
     # --- System Web Addresses ---
     ARS_BASE_URL = os.environ.get('ARS_BASE_URL')
     SNOW_INCIDENT_URL = os.environ.get('SNOW_INCIDENT_URL')
