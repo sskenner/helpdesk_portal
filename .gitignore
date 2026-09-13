@@ -1,6 +1,9 @@
 # Environments
 venv/
 env/
+# mima
+vehp/
+# hh dedicated
 vhpp/
 
 # Environment Variables & Secrets
