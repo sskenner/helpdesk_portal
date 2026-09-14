@@ -1,4 +1,5 @@
 import subprocess
+import traceback
 
 from flask import render_template, request
 from selenium.webdriver.common.by import By
