@@ -1,8 +1,16 @@
 import os
+import sys
 
 from dotenv import load_dotenv
 
-load_dotenv()
+if getattr(sys, 'frozen', False):
+    BASE_DIR = os.path.dirname(sys.executable)
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+env_path = os.path.join(BASE_DIR, '.env')
+load_dotenv(dotenv_path=env_path)
+
 # >> --- Configuration & Constants ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
