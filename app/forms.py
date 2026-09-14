@@ -21,7 +21,7 @@ class LaunchForm(FlaskForm):
     verify = StringField('Verification', validators=[])
     incident = StringField('Incident', validators=[])
     type = SelectField('Incident Type',
-                       choices=[('Bla', 'Blank'), ('Res', 'Reset'), ('Unl', 'Unlock'), ('Gen', 'General'), ('Sta', 'Status'), ('Bee', 'Beeping')])
+                       choices=[('Res', 'Reset'), ('Unl', 'Unlock'), ('Gen', 'General'), ('Sta', 'Status'), ('Bee', 'Beeping'), ('Bla', 'Blank')])
 
 class EpForm(FlaskForm):
     submit = SubmitField('Launch')

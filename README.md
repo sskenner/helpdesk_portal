@@ -1,6 +1,6 @@
 # Helpdesk Automation
 
-A standalone application designed to streamline and automate helpdesk workflows. This tool provides a user-friendly web interface to manage tasks, seamlessly integrating with ServiceNow and local processing scripts.
+A standalone application designed to streamline and automate helpdesk workflows. This tool provides a user-friendly web interface for managing tasks, seamlessly integrating with ServiceNow.
 
 ## ✨ Features
 
@@ -34,7 +34,7 @@ Before running the application for the first time, you must provide your persona
 ## 🚀 Usage
 
 1. Inside your extracted folder, double-click the `run.exe` executable.
-2. A black terminal window will open—this is normal and acts as the application's engine. Keep this window open.
+2. A terminal window will open and acts as the application's engine. Keep this window open.
 3. The Helpdesk Automation GUI will launch automatically.
 4. Use the interface to execute your automated tasks. The application will utilize the bundled Chrome driver and scripts seamlessly in the background.
 
