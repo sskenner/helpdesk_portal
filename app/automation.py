@@ -61,13 +61,13 @@ def create_snow_incident(driver, wait, act_dir, service_name, template_text, des
     login_to_servicenow(driver, wait)
     driver.get(Config.SNOW_INCIDENT_URL)
 
-    # Allow the PDI's background login scripts 3 seconds to execute any forced redirects
-    time.sleep(3)
-
-    # Check if the platform hijacked the URL away from the incident form
-    if "incident.do" not in driver.current_url:
+    # --- Dynamic Wait for Redirects ---
+    try:
+        wait.until(EC.url_contains("incident.do"))
+    except TimeoutException:
         print("Landing page redirect detected. Re-navigating to the incident form...")
         driver.get(Config.SNOW_INCIDENT_URL)
+        wait.until(EC.url_contains("incident.do"))
 
     switch_to_snow_iframe(driver, wait)
 
